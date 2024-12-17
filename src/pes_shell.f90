@@ -1025,34 +1025,4 @@ contains
     return
   end subroutine hessian
 
-  !======================!
-  ! Numerical gradients  !
-  !======================!
-  subroutine numerical_grad(x, grad)
-    real,dimension(:),intent(out)::grad
-    real,dimension(:),intent(in)::x
-    !::::::::::::::::::::::::::::
-    real,dimension(size(x))::xt
-    real::eps=0.001
-    integer::i,j,k,natm
-    real::vf,vb
-
-    natm = size(x)/3
-    do i=1,natm*3
-      ! forward
-      xt = x
-      xt(i) = xt(i) + eps
-      call getpot(xt, vf)
-
-      ! backward
-      xt = x
-      xt(i) = xt(i) - eps
-      call getpot(xt, vb)
-
-      grad(i) = (vf - vb) / eps / 2.0
-    end do
-
-    return
-  end subroutine numerical_grad
-
 end module
